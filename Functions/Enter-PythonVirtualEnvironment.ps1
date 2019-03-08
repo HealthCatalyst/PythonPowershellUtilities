@@ -8,7 +8,6 @@ function Enter-PythonVirtualEnvironment([string]$Name){
     foreach ($environmentPath in $virtualEnvs){
         $environmentName = $environmentPath.Name
         if ($environmentName.StartsWith($Name)){
-            Write-Host "Env Path: $virtualenvRoot\$environmentName\Scripts\Activate.ps1"
             Invoke-Expression -Command "$virtualenvRoot\$environmentName\Scripts\Activate.ps1"
             return
         }
