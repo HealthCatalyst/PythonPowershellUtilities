@@ -7,6 +7,13 @@ function New-PythonInstallation([string]$Version, [switch]$YesToAll=$false){
     $installName = "python$Version"
     $installerEXEPath = "$PSScriptRoot\$installName-Installer.exe"
 
+    if (!($Version -match "^\d+\.\d+\.\d+$")){
+        throw "Version must be fully specified. e.g. '3.7' will not work, but '3.7.2' will."
+    }
+    if($Version -match "^2\."){
+        throw "Unfortunately there are no executable installers for python versions 2.x. Version 2.x must be installed manually from https://www.python.org/downloads/"
+    }
+
     Write-Host "Downloading Python Installer..."
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Invoke-WebRequest -Uri $installerURL -OutFile $installerEXEPath

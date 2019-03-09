@@ -24,3 +24,6 @@ Export-ModuleMember -Function New-PythonInstallation
 Export-ModuleMember -Function New-PythonVirtualEnvironment
 Export-ModuleMember -Function Enter-PythonVirtualEnvironment
 Export-ModuleMember -Function Set-PythonUtilitesConfigValue
+Export-ModuleMember -Function Get-InstalledPythonVersions
+Export-ModuleMember -Function Get-PythonUtilitiesConfigValue
+Export-ModuleMember -Function Set-PythonUtilitiesConfigValue

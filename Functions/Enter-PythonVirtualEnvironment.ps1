@@ -1,10 +1,10 @@
 . "$PSScriptRoot\Get-PythonUtilitiesConfigValue.ps1"
 
 function Enter-PythonVirtualEnvironment([string]$Name){
-    $virtualenvRoot = Get-PythonUtilitiesConfigValue -Key 'VirtualEnvironmentDirectory'
+    $virtualenvRoot = Get-PythonUtilitiesConfigValue -Key 'VirtualEnvironmentRoot'
 
     #Find matching virtualenv
-    $virtualEnvs = dir $virtualenvRoot -Directory
+    $virtualEnvs = Get-ChildItems $virtualenvRoot -Directory
     foreach ($environmentPath in $virtualEnvs){
         $environmentName = $environmentPath.Name
         if ($environmentName.StartsWith($Name)){
