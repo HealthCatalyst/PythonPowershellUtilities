@@ -15,6 +15,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     }
 
     Enter-PythonVirtualEnvironment -Name $venvName | Out-Null
+    pip install -U pip
     pip install toolz
     It 'Should install the test dependency into the new venv' {
         Test-Path -Path "$venvRoot\$venvName-3.7.2\Lib\site-packages\toolz" | Should -BeTrue
