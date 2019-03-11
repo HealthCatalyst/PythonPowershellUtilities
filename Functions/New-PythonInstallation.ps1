@@ -25,9 +25,19 @@ function New-PythonInstallation([string]$Version, [switch]$YesToAll=$false){
     # Wait for executable to complete so we can delete it when we are done
     & $installerEXEPath /quiet /passive InstallAllUsers=1 TargetDir=$installRoot\$installName | Out-Null
     
-    $delete = Read-Host -Prompt "Delete installer? Y/n"
-    if (!$delete) {$delete = "y"}
-    if (($delete.ToLower() -eq "y") -or $YesToAll){
+    $delete = $false
+    if ($YesToAll){
+        $delete = $true
+    }
+    else {
+        $response = Read-Host -Prompt "Delete installer? Y/n"
+        if (!$response) {$response = "y"}
+        if ($response.ToLower() -eq "y"){
+            $delete = $true
+        }
+    }
+    
+    if ($delete){
         Remove-Item -Path $installerEXEPath
     }
 }
