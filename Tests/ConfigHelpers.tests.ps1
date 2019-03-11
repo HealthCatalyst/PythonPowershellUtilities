@@ -1,7 +1,6 @@
 
 Describe "Getting and Setting Config Values" -Tag "Unit" {
-    . "$PSScriptRoot\..\Functions\Get-PythonUtilitiesConfigValue.ps1"
-    . "$PSScriptRoot\..\Functions\Set-PythonUtilitiesConfigValue.ps1"
+    Import-Module "$PSScriptRoot\..\PythonPowershellUtilities.psm1" -Force
 
     
     $testValue = "42"
