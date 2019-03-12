@@ -13,6 +13,8 @@ Enter-PythonVirtualEnvironment MyEnvironment
 
 By default this tool appends the python version to every environment name. So the code above would create a virtual environment named `MyEnvironment-3.7.2`. However, when activating a virtual environment it is only necessary to include as much of the name as you need to uniquely identify your environment since behind the scenes the appropriate virtual environment is found using `EnvironmentName.StartsWith()`.
 
+**See the Wiki tab for an API reference.**
+
 
 ## Installation Locations
 By default `New-PythonInstallation` will add a new sub-directiry inside `C:\PythonInstallations` called `python<version>` where version is the major.minor.patch python version. For example, calling `New-PythonInstallation 3.6.8` would create the new directory `C:\PythonInstallations\python3.6.8`. Similarly, `New-PythonVirtualEnvironment` will create new environments in `C:\PythonVirtualEnvironments` by default. For example, calling `New-PythonVirtualEnvironment -Name MyEnvironment -Version 3.7.1` will create a new virtual environment named `MyEnvironment-3.7.1` in `C:\PythonVirtualEnvironments` (which can then be activated by calling `Enter-PythonVirtualEnvironment MyEnvironment`). 
