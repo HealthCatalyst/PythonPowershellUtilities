@@ -1,7 +1,7 @@
 . "$PSScriptRoot\Get-PythonUtilitiesConfigValue.ps1"
 . "$PSScriptRoot\Get-PythonInstallerUrl.ps1"
 
-function New-PythonInstallation([string]$Version, [switch]$YesToAll=$false){
+function New-PythonInstallation([string]$Version, [bool]$DeleteInstaller=$false){
     $installerUrl = Get-PythonInstallerUrl -Version $Version
     $installRoot = Get-PythonUtilitiesConfigValue -Key 'PythonInstallRoot'
     $installName = "python$Version"
@@ -25,19 +25,8 @@ function New-PythonInstallation([string]$Version, [switch]$YesToAll=$false){
     # Wait for executable to complete so we can delete it when we are done
     & $installerEXEPath /quiet /passive InstallAllUsers=1 TargetDir=$installRoot\$installName | Out-Null
     
-    $delete = $false
-    if ($YesToAll){
-        $delete = $true
-    }
-    else {
-        $response = Read-Host -Prompt "Delete installer? Y/n"
-        if (!$response) {$response = "y"}
-        if ($response.ToLower() -eq "y"){
-            $delete = $true
-        }
-    }
-    
-    if ($delete){
+    if ($DeleteInstaller){
+        Write-Host "Deleting the installer executable at $installerEXEPath..."
         Remove-Item -Path $installerEXEPath
     }
 }
