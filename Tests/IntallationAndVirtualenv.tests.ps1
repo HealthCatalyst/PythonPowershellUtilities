@@ -2,7 +2,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     Import-Module "$PSScriptRoot\..\PythonPowershellUtilities.psm1" -Force
 
     
-    New-PythonInstallation -Version 3.7.2 -YesToAll | Out-Null
+    New-PythonInstallation -Version 3.7.2 -DeleteInstaller $true | Out-Null
     $installRoot = Get-PythonUtilitiesConfigValue "PythonInstallRoot"
     It 'Should create a new python 3.7.2 installation' {
         Test-Path -Path "$installRoot\python3.7.2\python.exe" | Should -BeTrue
