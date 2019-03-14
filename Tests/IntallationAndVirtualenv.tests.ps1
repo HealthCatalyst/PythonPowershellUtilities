@@ -1,6 +1,5 @@
 Describe "Installing new python versions and creating virtual environments" -Tag "Unit" {
     Import-Module "$PSScriptRoot\..\PythonPowershellUtilities.psm1" -Force
-
     
     New-PythonInstallation -Version 3.7.2 -DeleteInstaller $true | Out-Null
     $installRoot = Get-PythonUtilitiesConfigValue "PythonInstallRoot"
