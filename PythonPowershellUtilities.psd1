@@ -74,6 +74,7 @@
         'Get-InstalledPythonVersions',
         'New-PythonVirtualEnvironment',
         'Enter-PythonVirtualEnvironment',
+        'Get-PythonVirtualEnvironments',
         'Remove-PythonVirtualEnvironment',
         'Get-PythonUtilitiesConfigValue',
         'Set-PythonUtilitiesConfigValue',
@@ -131,3 +132,5 @@
     # DefaultCommandPrefix = ''
     
     }
+
+    
