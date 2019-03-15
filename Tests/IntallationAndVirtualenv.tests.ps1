@@ -22,6 +22,8 @@ Describe "Installing new python versions and creating virtual environments" -Tag
 
     deactivate
 
+    Get-PythonVirtualEnvironments
+
     Remove-PythonVirtualEnvironment -Name $venvName -YesToAll | Out-Null
     It 'Should delete the newly-created venv' {
         Test-Path -Path "$venvRoot\$venvName-3.7.2\python.exe" | Should -BeFalse
