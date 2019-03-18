@@ -9,7 +9,7 @@ function Remove-PythonVirtualEnvironment([string]$Name, [switch]$YesToAll=$false
         $environmentName = $environmentPath.Name
         if ($environmentName.StartsWith($Name)){
             if (!$YesToAll){
-                $delete = Read-Host -Prompt "Delete virtual environment at $virtualenvRoot\$($environmentName)? y/n"
+                $delete = Read-Host -Prompt "Delete virtual environment at $virtualenvRoot$($environmentName)? y/n"
                 if (!$delete -or ($delete.ToLower() -ne "y")) {return}
             }
             Remove-Item -LiteralPath "$virtualenvRoot\$environmentName" -Force -Recurse
