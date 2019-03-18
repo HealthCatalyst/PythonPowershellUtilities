@@ -21,8 +21,9 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     }
 
     deactivate
-
-    Get-PythonVirtualEnvironments
+    It 'Should not throw an error when listing the environments' {
+        Get-PythonVirtualEnvironments
+    }
 
     Remove-PythonVirtualEnvironment -Name $venvName -YesToAll | Out-Null
     It 'Should delete the newly-created venv' {
