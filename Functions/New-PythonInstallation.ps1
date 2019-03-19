@@ -23,7 +23,10 @@ function New-PythonInstallation([string]$Version, [bool]$DeleteInstaller=$false)
     }
     
     # Wait for executable to complete so we can delete it when we are done
-    & $installerEXEPath /quiet /passive InstallAllUsers=1 TargetDir=$installRoot\$installName | Out-Null
+    $result = Start-Process $installerEXEPath -ArgumentList "/quiet /passive InstallAllUsers=1 TargetDir=$installRoot\$installName" -NoNewWindow -Wait -PassThru
+    if (!($result.ExitCode -eq 0)) {
+        throw "Python installation failed."
+    }
     
     if ($DeleteInstaller){
         Write-Host "Deleting the installer executable at $installerEXEPath..."
