@@ -16,4 +16,8 @@ function New-PythonVirtualEnvironment([string]$Version, [string]$Name){
 
     Write-Host "Creating new virtual environment for Python version $Version at $virtualEnvPath."
     & $pythonEXEPath -m venv $virtualEnvPath | Out-Null
+    $result = Start-Process $pythonEXEPath -ArgumentList "-m venv $virtualEnvPath" -NoNewWindow -Wait -PassThru
+    if (!($result.ExitCode -eq 0)) {
+        throw "Error creating virtual environment."
+    }
 }
