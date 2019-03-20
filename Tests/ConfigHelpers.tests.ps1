@@ -5,7 +5,7 @@ Describe "Getting and Setting Config Values" -Tag "Unit" {
     
     $testValue = "42"
     It 'Should get newly-set value' {
-        Set-PythonInstallRoot -Value $testValue
+        Set-PythonInstallRoot -Path $testValue
         Get-PythonInstallRoot | Should -Be $testValue
     }
 
