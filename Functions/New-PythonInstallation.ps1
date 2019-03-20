@@ -1,6 +1,5 @@
 . "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 . "$PSScriptRoot\Get-PythonInstallerUrl.ps1"
-. "$PSScriptRoot\Find-CachedInstaller.ps1"
 
 function New-PythonInstallation([string]$Version){
     $installerCache = "$PSScriptRoot\..\Installers"
