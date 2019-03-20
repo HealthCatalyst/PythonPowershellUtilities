@@ -10,13 +10,13 @@ Describe "Getting and Setting Config Values" -Tag "Unit" {
         Get-PythonInstallRoot | Should -Be $testPythonInstallValue
 
         Set-VirtualEnvironmentRoot -Path $testVirtualEnvironmentValue -Force
-        Get-VirtualEnvironmentRoot | Should -Be testVirtualEnvironmentValue
+        Get-VirtualEnvironmentRoot | Should -Be $testVirtualEnvironmentValue
     }
 
     $defaultInstallRoot = "C:\PythonInstallations\"
     $defaultVirtualEnvironmentRoot = "C:\PythonVirtualEnvironments\"
     It "Should reset the config to the default value" {
-        Restore-PythonUtilitiesConfigDefaults
+        Restore-PythonUtilitiesConfigDefaults -Force
         Get-PythonInstallRoot | Should -Be $defaultInstallRoot
         Get-VirtualEnvironmentRoot | Should -Be $defaultVirtualEnvironmentRoot
     }
