@@ -15,7 +15,7 @@ function Set-PythonUtilitiesConfigValue([string]$Key, [string]$Value){
 }
 
 function Get-PythonInstallRoot(){
-    return Get-PythonUtilitiesConfigValue("PythonInstallRoot")
+    return Get-PythonUtilitiesConfigValue -Key "PythonInstallRoot"
 }
 
 function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
@@ -37,7 +37,7 @@ function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
 }
 
 function Get-VirtualEnvironmentRoot(){
-    return Get-PythonUtilitiesConfigValue("VirtualEnvironmentRoot")
+    return Get-PythonUtilitiesConfigValue -Key "VirtualEnvironmentRoot"
 }
 
 function Set-VirtualEnvironmentRoot([string]$Path, [switch]$Force){
