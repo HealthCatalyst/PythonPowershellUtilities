@@ -2,11 +2,9 @@
 
 function Get-PythonVirtualEnvironments(){
     $virtualenvRoot = Get-VirtualEnvironmentRoot
-    $virtualEnvironments = New-Object System.Collections.ArrayList
-
+    $virtualEnvironments = @()
     foreach ($item in Get-ChildItem $virtualenvRoot -Directory) {
-        $name = $item.Name
-        $virtualEnvironments.add($name)
+        $virtualEnvironments += $item.Name
     }
 
     return $virtualEnvironments
