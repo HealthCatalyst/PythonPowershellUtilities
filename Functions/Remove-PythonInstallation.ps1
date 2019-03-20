@@ -8,7 +8,7 @@ function Remove-PythonInstallation([string]$Version){
     }
 
     # Wait for executable to complete so we can delete it when we are done
-    $result = Start-Process $installerEXEPath -ArgumentList "/uninstall" -NoNewWindow -Wait -PassThru
+    $result = Start-Process $installerEXEPath -ArgumentList "/uninstall /passive" -NoNewWindow -Wait -PassThru
     if (!($result.ExitCode -eq 0)) {
         throw "Python installer crashed silently while uninstalling."
     }
