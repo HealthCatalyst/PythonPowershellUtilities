@@ -20,7 +20,7 @@ function Get-PythonInstallRoot(){
 
 function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
     $installerCache = "$PSScriptRoot\..\Installers"
-    $cacheInfo = Get-ChildItem $installerCache | Measure-Object
+    $cacheInfo = Get-ChildItem "$installerCache\python*" | Measure-Object
     if (($cacheInfo.Count -gt 0) -and !$Force){
         $response = Read-Host "WARNING: One or more versions of python have already been installed into the current PythonInstallRoot, changing the root will uninstalll those versions and orphan any virtual environments created from those versions. To continue and uninstall the current python versions enter 'yes'. To cancel, enter 'no' or press enter/return"
         if (!($response -eq "yes")){

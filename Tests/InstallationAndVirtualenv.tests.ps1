@@ -17,7 +17,6 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     }
 
     Enter-PythonVirtualEnvironment -Name $venvName
-    # pip --disable-pip-version-check install toolz 
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
         Test-Path -Path "$venvRoot\$venvName-$testVersion\Lib\site-packages\toolz" | Should -BeTrue
