@@ -25,6 +25,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     It 'Should not throw an error when listing the environments' {
         $envs = Get-PythonVirtualEnvironments
         $envs.Count | Should -Be 1
+        Write-Host $envs
     }
 
     Remove-PythonVirtualEnvironment -Name $venvName -YesToAll
