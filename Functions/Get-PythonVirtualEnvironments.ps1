@@ -7,5 +7,5 @@ function Get-PythonVirtualEnvironments(){
         $virtualEnvironments += $item.Name
     }
 
-    return $virtualEnvironments
+    return ,$virtualEnvironments
 }

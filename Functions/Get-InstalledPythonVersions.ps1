@@ -9,5 +9,5 @@ function Get-InstalledPythonVersions(){
         $installedVersions += $match.version
     }
 
-    return $installedVersions
+    return ,$installedVersions
 }
