@@ -1,32 +1,38 @@
 Describe "Installing new python versions and creating virtual environments" -Tag "Unit" {
     Import-Module "$PSScriptRoot\..\PythonPowershellUtilities.psm1" -Force
     
-    New-PythonInstallation -Version 3.7.2 -DeleteInstaller $true | Out-Null
+    $testVersion = "3.7.2"
+
+    New-PythonInstallation -Version $testVersion
     $installRoot = Get-PythonUtilitiesConfigValue "PythonInstallRoot"
-    It 'Should create a new python 3.7.2 installation' {
-        Test-Path -Path "$installRoot\python3.7.2\python.exe" | Should -BeTrue
+    It 'Should create a new python $testVersion installation' {
+        Test-Path -Path "$installRoot\python$testVersion\python.exe" | Should -BeTrue
     }
 
     $venvName = "TestEnv"
     $venvRoot = Get-PythonUtilitiesConfigValue "VirtualEnvironmentRoot"
-    New-PythonVirtualEnvironment -Version 3.7.2 -Name $venvName | Out-Null
+    New-PythonVirtualEnvironment -Version $testVersion -Name $venvName
     It 'Should create a new virtual environment' {
-        Test-Path -Path "$venvRoot\$venvName-3.7.2\Scripts\python.exe" | Should -BeTrue
+        Test-Path -Path "$venvRoot\$venvName-$testVersion\Scripts\python.exe" | Should -BeTrue
     }
 
-    Enter-PythonVirtualEnvironment -Name $venvName | Out-Null
-    pip --disable-pip-version-check install toolz
+    Enter-PythonVirtualEnvironment -Name $venvName
+    $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
-        Test-Path -Path "$venvRoot\$venvName-3.7.2\Lib\site-packages\toolz" | Should -BeTrue
+        Test-Path -Path "$venvRoot\$venvName-$testVersion\Lib\site-packages\toolz" | Should -BeTrue
     }
 
     deactivate
-    It 'Should not throw an error when listing the environments' {
-        Get-PythonVirtualEnvironments
+    It 'Should return the correct number of environments' {
+        $envs = Get-PythonVirtualEnvironments
+        $envs.Count | Should -Be 1
+        $envs[0] | Should -Be "$venvName-$testVersion"
     }
 
-    Remove-PythonVirtualEnvironment -Name $venvName -YesToAll | Out-Null
+    Remove-PythonVirtualEnvironment -Name $venvName -YesToAll
     It 'Should delete the newly-created venv' {
-        Test-Path -Path "$venvRoot\$venvName-3.7.2\python.exe" | Should -BeFalse
+        Test-Path -Path "$venvRoot\$venvName-$testVersion\python.exe" | Should -BeFalse
     }
+
+    Remove-PythonInstallation -Version $testVersion
 }

@@ -1,10 +1,10 @@
-. "$PSScriptRoot\Get-PythonUtilitiesConfigValue.ps1"
+. "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 
 function New-PythonVirtualEnvironment([string]$Version, [string]$Name){
-    $installRoot = Get-PythonUtilitiesConfigValue -Key 'PythonInstallRoot'
-    $virtualenvRoot = Get-PythonUtilitiesConfigValue -Key 'VirtualEnvironmentRoot'
+    $installRoot = Get-PythonInstallRoot
+    $virtualenvRoot = Get-VirtualEnvironmentRoot
     $pythonEXEPath = "$installRoot\python$Version\python.exe"
-    $virtualEnvPath = "$virtualenvRoot$Name-$Version"
+    $virtualEnvPath = [io.path]::Combine($virtualenvRoot, "$Name-$Version")
 
     if(!(Test-Path -Path $pythonEXEPath)){
         throw "Python version $Version is not installed. Please execute `New-PythonInstallation $Version` to install it and then re-run this command."
@@ -15,8 +15,7 @@ function New-PythonVirtualEnvironment([string]$Version, [string]$Name){
     }
 
     Write-Host "Creating new virtual environment for Python version $Version at $virtualEnvPath."
-    & $pythonEXEPath -m venv $virtualEnvPath | Out-Null
-    $result = Start-Process $pythonEXEPath -ArgumentList "-m venv $virtualEnvPath" -NoNewWindow -Wait -PassThru
+    $result = Start-Process $pythonEXEPath -ArgumentList "-m venv `"$virtualEnvPath`"" -NoNewWindow -Wait -PassThru
     if (!($result.ExitCode -eq 0)) {
         throw "Error creating virtual environment."
     }

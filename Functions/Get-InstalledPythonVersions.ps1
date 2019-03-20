@@ -1,9 +1,13 @@
-. "$PSScriptRoot\Get-PythonUtilitiesConfigValue.ps1"
 
 function Get-InstalledPythonVersions(){
-    $installRoot = Get-PythonUtilitiesConfigValue -Key 'PythonInstallRoot'
-    
-    foreach ($pathObj in Get-ChildItem $installRoot){
-        Write-Host $pathObj.Name.Replace("python", "")
+    $installerCache = "$PSScriptRoot\..\Installers"
+    $versionRegex = "python(?<version>\d{1,2}.\d{1,2}.\d{1,2})-Installer.exe"
+    $installedVersions = @()
+
+    foreach ($pathObj in Get-ChildItem "$installRoot\python*"){
+        $match = $pathObj.Name -match $versionRegex
+        $installedVersions += $match.version
     }
+
+    return ,$installedVersions
 }

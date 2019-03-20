@@ -3,15 +3,21 @@ Describe "Getting and Setting Config Values" -Tag "Unit" {
     Import-Module "$PSScriptRoot\..\PythonPowershellUtilities.psm1" -Force
 
     
-    $testValue = "42"
+    $testPythonInstallValue = "42"
+    $testVirtualEnvironmentValue = "37"
     It 'Should get newly-set value' {
-        Set-PythonUtilitiesConfigValue -Key "PythonInstallRoot" -Value $testValue
-        Get-PythonUtilitiesConfigValue -Key "PythonInstallRoot" | Should -Be $testValue
+        Set-PythonInstallRoot -Path $testPythonInstallValue -Force
+        Get-PythonInstallRoot | Should -Be $testPythonInstallValue
+
+        Set-VirtualEnvironmentRoot -Path $testVirtualEnvironmentValue -Force
+        Get-VirtualEnvironmentRoot | Should -Be $testVirtualEnvironmentValue
     }
 
-    $default = "C:\PythonInstallations\"
+    $defaultInstallRoot = "C:\PythonInstallations\"
+    $defaultVirtualEnvironmentRoot = "C:\PythonVirtualEnvironments\"
     It "Should reset the config to the default value" {
-        Restore-PythonUtilitiesConfigDefaults
-        Get-PythonUtilitiesConfigValue -Key "PythonInstallRoot" | Should -Be $default
+        Restore-PythonUtilitiesConfigDefaults -Force
+        Get-PythonInstallRoot | Should -Be $defaultInstallRoot
+        Get-VirtualEnvironmentRoot | Should -Be $defaultVirtualEnvironmentRoot
     }
 }

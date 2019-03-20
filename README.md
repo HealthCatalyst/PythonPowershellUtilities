@@ -22,25 +22,27 @@ By default this tool appends the python version to every environment name. So th
 By default `New-PythonInstallation` will add a new sub-directiry inside `C:\PythonInstallations` called `python<version>` where version is the major.minor.patch python version. For example, calling `New-PythonInstallation 3.6.8` would create the new directory `C:\PythonInstallations\python3.6.8`. Similarly, `New-PythonVirtualEnvironment` will create new environments in `C:\PythonVirtualEnvironments` by default. For example, calling `New-PythonVirtualEnvironment -Name MyEnvironment -Version 3.7.1` will create a new virtual environment named `MyEnvironment-3.7.1` in `C:\PythonVirtualEnvironments` (which can then be activated by calling `Enter-PythonVirtualEnvironment MyEnvironment`). 
 
 ### Changing the Defaults
-Both of these default locations can be changed by calling another function in this module `Set-PythonUtillitiesConfigValue` which takes two arguments, `-Key` and `-Value`. Here is a list of valid configuration keys which can be set using this function.
+Both of these default locations can be managed by calling their getters and setters.
 
-|Key                   |Default Value                 | Description |
-|----------------------|------------------------------|-------------|
-|PythonInstallRoot     |C:\PythonInstallations\       | The directory into which new python versions will be installed.|
-|VirtualEnvironmentRoot|C:\PythonVirtualEnvironments\ | The directory into which new virtual environments will be placed, and where the utility will look for environments when `Enter-PythonVirtualEnvironment` is called.|
-
+|Method                    | Description |
+|--------------------------|-------------|
+|Set-PythonInstallRoot     | Sets the value of `PythonInstsallRoot`, the directory into which new python versions will be installed.|
+|Get-PythonInstallRoot     | Gets directory into which new python versions will be installed.|
+|Set-VirtualEnvironmentRoot| Sets the value of `VirtualEnvironmentRoot`, the directory into which new virtual environments will be placed, and where the utility will look for environments when `Enter-PythonVirtualEnvironment` is called.|
+|Get-VirtualEnvironmentRoot| Gets the value of `VirtualEnvironmentRoot`.|
 
 So to set the directory where new virtual environments are created to `C:\Users\my.user\Developer`, use
 ```powershell
-Set-PythonUtilitiesConfigValue -Key VirtualEnvironmentRoot -Value "C:\Users\my.user\Developer"
+Set-VirtualEnvironmentRoot -Path "C:\Users\my.user\Developer"
 ```
-Similarly, to obtain the current value for a configuration key, use `Get-PythonUtilitiesConfigValue` which takes one argument, `-Key`. The defaults are stored in a JSON file in the module directory. `Get-PythonUtilitiesConfigValue` and `Set-PythonUtilitiesConfigValue` simply read and write values to and from this file.
 
 
-It is recommended that if you wish to change the defaults, you do so before using the utilities to install python versions or create virtual environments. If you install python versions into one directory and then change the default installation directory, the utility will forget that those versions were installed, since they are not present in the new directory, and you will need to re-install those versions again in the new directory in order to create new virtual environments using those installations. Similarly, if you change the default virtual environment directory after creating virtual environments in the old directory, the old virtual environments will still exist, but cannot be accessed by calling `Enter-PythonVirtualEnvironment` since the utilities are now pointed at the new directory.
+It is recommended that if you wish to change the defaults, you do so before using the utilities to install python versions or create virtual environments. If you install python versions into one `PythonInstallRoot` and then change the value of `PythonInstallRoot` using `Set-PythonInstallRoot` the utility will uninstall all the currently-installed python versions (after prompting the user for confirmation). You will then need to re-install those versions again in the new `PythonInstallRoot` in order to create new virtual environments using those installations. Also, note that if you have created virtual environments using the versions of python that were installed in one `PythonInstallRoot`, after changing the `PythonInstallRoot` those virtual environments will be orphaned, meaning that they will still exist, but you will not be able to execute any python code using those environments. Similarly, if you change the `VirtualEnvironmentRoot` after creating virtual environments in the old `VirtualEnvironmentRoot`, the old virtual environments will still exist, and they *can* still be executed, but they cannot be accessed by calling `Enter-PythonVirtualEnvironment` since the utilities are now pointed at the new `VirtualEnvironmentRoot`.
 
 ## Why Can't I Use this Tool to Install Version 2.x?
 For python version 3.x the python development team provides several installers for windows, one of which is an executable installer that can be run from the command line / powershell. This is the installer that these utilities use. However, for version 2.x the development team only offers a gui-based MSI installer which cannot be run from Powershell, as far as I am aware. So in order to keep things simple, and in light of the fact that most people consider python version 2.x to be deprecated anyway, these utilities only support version 3.x.
 
 ## Uninstalling Python Versions
-There is currently no function in these utilties for uninstalling python versions. This is due to the fact that while the executable installers make it easy to uninstall from the GUI, there is no obvious way to use the executable installer to uninstall python from a powershell script. If you wish to uninstall a previously-installed version of python there are two paths. First, if you chose not to delete the installer executable after running `New-PythonInstallation` you can open the installer for the version of python that you wish to uninstall and following the uninstall options in the UI. If the installer executables where not deleted during installation they can be found in the directory where the `PythonPowershellUtilities` module was installed, which by default is `C:\Program Files\WindowsPowerShell\Modules\`. The executables will be in the `Functions` directory inside the module. 
+To uninstall a previously-installed version of python execute `Remove-PythonInstallation -Version <version>` where `<version>` is the three-number version, e.g. `3.7.2`. 
+
+The same executable is used to both install and uninstall python. This module caches the installer/uninstaller executable every time a new version of python is installed through `New-PythonInstallation` and then uses that executable to uninstall the corresponding version of python. The executable is deleted once the version is uninstalled.
