@@ -1,4 +1,3 @@
-. "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 
 function Get-InstalledPythonVersions(){
     $installerCache = "$PSScriptRoot\..\Installers"
