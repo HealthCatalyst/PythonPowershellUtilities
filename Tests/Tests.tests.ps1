@@ -2,6 +2,20 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     Import-Module "$PSScriptRoot\..\PythonPowershellUtilities.psm1" -Force
     
     $testVersion = "3.7.2"
+    # Make sure to test paths that have spaces
+    $testPythonInstallRoot = "C:\Program Files\Python\My Install Root"
+    $testVirtualEnvironmentRoot = "C:\Program Files\Python\My Python Virtual Environments"
+    $defaultInstallRoot = "C:\PythonInstallations\"
+    $defaultVirtualEnvironmentRoot = "C:\PythonVirtualEnvironments\"
+
+    
+    It 'Should get newly-set value' {
+        Set-PythonInstallRoot -Path $testPythonInstallRoot -Force
+        Get-PythonInstallRoot | Should -Be $testPythonInstallRoot
+
+        Set-VirtualEnvironmentRoot -Path $testVirtualEnvironmentRoot -Force
+        Get-VirtualEnvironmentRoot | Should -Be $testVirtualEnvironmentRoot
+    }
 
     New-PythonInstallation -Version $testVersion
     $installRoot = Get-PythonUtilitiesConfigValue "PythonInstallRoot"
@@ -35,4 +49,10 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     }
 
     Remove-PythonInstallation -Version $testVersion
+
+    It "Should reset the config to the default value" {
+        Restore-PythonUtilitiesConfigDefaults -Force
+        Get-PythonInstallRoot | Should -Be $defaultInstallRoot
+        Get-VirtualEnvironmentRoot | Should -Be $defaultVirtualEnvironmentRoot
+    }
 }

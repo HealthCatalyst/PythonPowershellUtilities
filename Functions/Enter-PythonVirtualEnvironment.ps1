@@ -9,7 +9,8 @@ function Enter-PythonVirtualEnvironment([string]$Name){
         $environmentName = $environmentPath.Name
         if ($environmentName.StartsWith($Name)){
             Write-Host "To exit the virtual environment execute the command, 'deactivate'."
-            Invoke-Expression -Command "$virtualenvRoot\$environmentName\Scripts\Activate.ps1"
+            $activationPath = "$virtualenvRoot\$environmentName\Scripts\Activate.ps1" -replace ' ','` '
+            Invoke-Expression -Command $activationPath
             return
         }
     }
