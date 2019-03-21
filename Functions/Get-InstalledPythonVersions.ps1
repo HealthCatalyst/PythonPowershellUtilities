@@ -1,12 +1,11 @@
-
 function Get-InstalledPythonVersions(){
     $installerCache = "$PSScriptRoot\..\Installers"
-    $versionRegex = "python(?<version>\d{1,2}.\d{1,2}.\d{1,2})-Installer.exe"
+    $versionRegex = "python(?<version>\d+.\d+.\d+)-Installer.exe"
     $installedVersions = @()
 
-    foreach ($pathObj in Get-ChildItem "$installRoot\python*"){
-        $match = $pathObj.Name -match $versionRegex
-        $installedVersions += $match.version
+    foreach ($pathObj in Get-ChildItem "$installerCache\python*"){
+        $pathObj.Name -match $versionRegex | Out-Null
+        $installedVersions += $Matches.version
     }
 
     return ,$installedVersions

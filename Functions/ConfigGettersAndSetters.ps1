@@ -29,7 +29,7 @@ function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
             }
         }
         
-        foreach ($version in Get-InstalledPythonVersions){
+        foreach ($version in $(Get-InstalledPythonVersions)){
             Remove-PythonInstallation -Version $version
         }
     }
