@@ -42,7 +42,8 @@ function Get-VirtualEnvironmentRoot(){
 
 function Set-VirtualEnvironmentRoot([string]$Path, [switch]$Force){
     if (!$Force){
-        $venvRootInfo = Get-ChildItem Get-VirtualEnvironmentRoot | Measure-Object
+        $venvRootPath = Get-VirtualEnvironmentRoot
+        $venvRootInfo = Get-ChildItem $venvRootPath | Measure-Object
         if ($venvRootInfo.Count -gt 0){
             $response = Read-Host "WARNING: One or more virtual environments have already been created in the current VirtualEnvironmentRoot. Changing the root will leave the environments in place, but they will not be accessible through calls to `Enter-PythonVirtualEnvironment`. To continue enter 'yes'. To cancel, enter 'no' or press enter/return"
             if (!($response -eq "yes")){
