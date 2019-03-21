@@ -12,7 +12,7 @@
     RootModule = 'PythonPowershellUtilities.psm1'
     
     # Version number of this module.
-    ModuleVersion = '0.6.3'
+    ModuleVersion = '0.6.4'
     
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -78,7 +78,7 @@
         'Get-PythonVirtualEnvironments',
         'Remove-PythonVirtualEnvironment',
         'Get-PythonInstallRoot',
-        'Get-PythonInstallRoot',
+        'Set-PythonInstallRoot',
         'Get-VirtualEnvironmentRoot',
         'Set-VirtualEnvironmentRoot',
         'Restore-PythonUtilitiesConfigDefaults'
