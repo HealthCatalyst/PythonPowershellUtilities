@@ -23,7 +23,7 @@ function Get-PythonInstallerCache(){
     $installRoot = Get-PythonInstallRoot
     $installerCache = "$installRoot\Installers"
     if (!(Test-Path $installerCache)){
-        New-Item -ItemType Directory -Path $installerCache -Force
+        New-Item -ItemType Directory -Path $installerCache -Force | Out-Null
     }
     return $installerCache
 }
