@@ -7,7 +7,7 @@ function New-PythonVirtualEnvironment([string]$Version, [string]$Name){
     $virtualEnvPath = [io.path]::Combine($virtualenvRoot, "$Name-$Version")
 
     if(!(Test-Path -Path $pythonEXEPath)){
-        throw "Python version $Version is not installed. Please execute `New-PythonInstallation $Version` to install it and then re-run this command."
+        throw "Python version $Version is not installed. Please execute `Install-Python $Version` to install it and then re-run this command."
     }
 
     if(!(Test-Path -Path $InstallRoot)){

@@ -1,1 +1,0 @@
-The installer executables in this directory are used by the module as an indication of which python version are currently installed. Deleting them manually will cause problems with the execution of the module. They are deleted automatically by `Remove-PythonInstallation`.
