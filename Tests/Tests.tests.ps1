@@ -48,7 +48,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
         Test-Path -Path "$venvRoot\$venvName-$testVersion\python.exe" | Should -BeFalse
     }
 
-    Remove-PythonInstallation -Version $testVersion
+    Uninstall-Python -Version $testVersion
 
     It "Should reset the config to the default value" {
         Restore-PythonUtilitiesConfigDefaults -Force
