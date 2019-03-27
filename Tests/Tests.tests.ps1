@@ -17,7 +17,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
         Get-VirtualEnvironmentRoot | Should -Be $testVirtualEnvironmentRoot
     }
 
-    New-PythonInstallation -Version $testVersion
+    Install-Python -Version $testVersion
     $installRoot = Get-PythonUtilitiesConfigValue "PythonInstallRoot"
     It 'Should create a new python $testVersion installation' {
         Test-Path -Path "$installRoot\python$testVersion\python.exe" | Should -BeTrue

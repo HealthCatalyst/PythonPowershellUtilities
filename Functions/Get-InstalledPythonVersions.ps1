@@ -1,5 +1,5 @@
 function Get-InstalledPythonVersions(){
-    $installerCache = "$PSScriptRoot\..\Installers"
+    $installerCache = Get-PythonInstallerCache
     $versionRegex = "python(?<version>\d+.\d+.\d+)-Installer.exe"
     $installedVersions = @()
 

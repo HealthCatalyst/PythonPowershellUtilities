@@ -1,5 +1,5 @@
-function Remove-PythonInstallation([string]$Version){
-    $installerCache = "$PSScriptRoot\..\Installers"
+function Uninstall-Python([string]$Version){
+    $installerCache = Get-PythonInstallerCache
     $installName = "python$Version"
     $installerEXEPath = "$installerCache\$installName-Installer.exe"
 

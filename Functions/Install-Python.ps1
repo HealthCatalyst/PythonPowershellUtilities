@@ -1,8 +1,8 @@
 . "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 . "$PSScriptRoot\Get-PythonInstallerUrl.ps1"
 
-function New-PythonInstallation([string]$Version){
-    $installerCache = "$PSScriptRoot\..\Installers"
+function Install-Python([string]$Version){
+    $installerCache = Get-PythonInstallerCache
     $installerUrl = Get-PythonInstallerUrl -Version $Version
     $installRoot = Get-PythonInstallRoot
     $installName = "python$Version"

@@ -12,7 +12,7 @@
     RootModule = 'PythonPowershellUtilities.psm1'
     
     # Version number of this module.
-    ModuleVersion = '0.6.7'
+    ModuleVersion = '0.7.0'
     
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -70,8 +70,8 @@
     
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
-        'New-PythonInstallation',
-        'Remove-PythonInstallation',
+        'Install-Python',
+        'Uninstall-Python',
         'Get-InstalledPythonVersions',
         'New-PythonVirtualEnvironment',
         'Enter-PythonVirtualEnvironment',
