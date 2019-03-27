@@ -21,7 +21,11 @@ function Set-PythonUtilitiesConfigValue([string]$Key, [string]$Value){
 
 function Get-PythonInstallerCache(){
     $installRoot = Get-PythonInstallRoot
-    return "$installRoot\Installers"
+    $installerCache = "$installRoot\Installers"
+    if (!(Test-Path $installerCache)){
+        New-Item -ItemType Directory -Path $installerCache -Force
+    }
+    return $installerCache
 }
 
 function Get-PythonInstallRoot(){
