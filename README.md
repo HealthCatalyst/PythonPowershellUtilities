@@ -8,7 +8,7 @@ A powershell module for installing python versions and managing python virtual e
 ```powershell
 Install-Module PythonPowershellUtilities
 ```
-The module is hosted on [powershellgallery.com](www.powershellgallery.com/packages/PythonPowershellUtilities) and can be downloaded and installed using the powershell `Install-Module` command.
+The module is hosted on [powershellgallery.com](https://www.powershellgallery.com/packages/PythonPowershellUtilities) and can be downloaded and installed using the powershell `Install-Module` command.
 
 ## Overview
 This module makes it easy to download multiple versions of python into a single configurable location. It also makes it easy to create and manage virtual environments that point to any of those installations. For example, to install Python version 3.7.2, create a virtual environment, and then activate that environment you would run
