@@ -1,4 +1,5 @@
 function Uninstall-Python([string]$Version){
+$Null = @(
     $installerCache = Get-PythonInstallerCache
     $installName = "python$Version"
     $installerEXEPath = "$installerCache\$installName-Installer.exe"
@@ -14,4 +15,5 @@ function Uninstall-Python([string]$Version){
     }
 
     Remove-Item -Path $installerEXEPath
+)
 }

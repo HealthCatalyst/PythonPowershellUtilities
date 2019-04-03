@@ -4,7 +4,7 @@ function Get-InstalledPythonVersions(){
     $installedVersions = @()
 
     foreach ($pathObj in Get-ChildItem "$installerCache\python*"){
-        $pathObj.Name -match $versionRegex | Out-Null
+        $pathObj.Name -match $versionRegex > $null
         $installedVersions += $Matches.version
     }
 

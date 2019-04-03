@@ -5,6 +5,7 @@ $script:defaultConfigPath = "$PSScriptRoot\..\Config\config.json"
 $script:registryConfigPath = "HKLM:\SOFTWARE\PythonPowershellUtilities"
 
 function Get-PythonUtilitiesConfigValue([string]$Key){
+$Null = @(
     # Add registry keys if they haven't been added already, otherwise just return them
     if (!(Test-Path $script:registryConfigPath)){
         New-Item -Path $script:registryConfigPath
@@ -12,19 +13,24 @@ function Get-PythonUtilitiesConfigValue([string]$Key){
         Set-PythonUtilitiesConfigValue -Key "VirtualEnvironmentRoot" -Value "C:\PythonVirtualEnvironments"
     }
     $entry = Get-ItemProperty $script:registryConfigPath -Name $Key
+)
     return $entry.$Key
 }
 
 function Set-PythonUtilitiesConfigValue([string]$Key, [string]$Value){
-    Set-ItemProperty -Path $script:registryConfigPath -Name $Key -Value $Value
+$Null = @(
+    Set-ItemProperty -Path $script:registryConfigPath -Name $Key -Value $Value > $null
+)
 }
 
 function Get-PythonInstallerCache(){
+$Null = @(
     $installRoot = Get-PythonInstallRoot
     $installerCache = "$installRoot\Installers"
     if (!(Test-Path $installerCache)){
-        New-Item -ItemType Directory -Path $installerCache -Force | Out-Null
+        New-Item -ItemType Directory -Path $installerCache -Force > $null
     }
+)
     return $installerCache
 }
 
@@ -33,6 +39,7 @@ function Get-PythonInstallRoot(){
 }
 
 function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
+$Null = @(
     $installRoot = Get-PythonInstallRoot
     $installerCache = Get-PythonInstallerCache
     if (Test-Path -Path $installerCache){
@@ -57,8 +64,9 @@ function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
             }
         }
     }
-    New-Item -ItemType directory -Path "$Path\Installers" -Force | Out-Null
+    New-Item -ItemType directory -Path "$Path\Installers" -Force > $null
     Set-PythonUtilitiesConfigValue -Key "PythonInstallRoot" -Value $Path
+)
 }
 
 function Get-VirtualEnvironmentRoot(){
@@ -66,6 +74,7 @@ function Get-VirtualEnvironmentRoot(){
 }
 
 function Set-VirtualEnvironmentRoot([string]$Path, [switch]$Force){
+$Null = @(
     if (!$Force){
         $venvRootPath = Get-VirtualEnvironmentRoot
         if (Test-Path $venvRootPath) {
@@ -79,4 +88,5 @@ function Set-VirtualEnvironmentRoot([string]$Path, [switch]$Force){
         }
     }
     Set-PythonUtilitiesConfigValue -Key "VirtualEnvironmentRoot" -Value $Path
+)
 }
