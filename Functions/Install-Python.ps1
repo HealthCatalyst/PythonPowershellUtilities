@@ -2,6 +2,7 @@
 . "$PSScriptRoot\Get-PythonInstallerUrl.ps1"
 
 function Install-Python([string]$Version){
+$Null = @(
     $installerCache = Get-PythonInstallerCache
     $installerUrl = Get-PythonInstallerUrl -Version $Version
     $installRoot = Get-PythonInstallRoot
@@ -31,4 +32,5 @@ function Install-Python([string]$Version){
     if (!($result.ExitCode -eq 0)) {
         throw "Python installation failed."
     }
+)
 }

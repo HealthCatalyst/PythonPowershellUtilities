@@ -1,6 +1,7 @@
 . "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 
 function New-PythonVirtualEnvironment([string]$Version, [string]$Name){
+$Null = @(
     $installRoot = Get-PythonInstallRoot
     $virtualenvRoot = Get-VirtualEnvironmentRoot
     $pythonEXEPath = "$installRoot\python$Version\python.exe"
@@ -19,4 +20,5 @@ function New-PythonVirtualEnvironment([string]$Version, [string]$Name){
     if (!($result.ExitCode -eq 0)) {
         throw "Error creating virtual environment."
     }
+)
 }

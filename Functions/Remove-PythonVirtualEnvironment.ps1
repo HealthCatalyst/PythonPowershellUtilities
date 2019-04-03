@@ -1,6 +1,7 @@
 . "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 
 function Remove-PythonVirtualEnvironment([string]$Name, [switch]$YesToAll=$false){
+$Null = @(
     $virtualenvRoot = Get-VirtualEnvironmentRoot
 
     #Find matching virtualenv
@@ -18,4 +19,5 @@ function Remove-PythonVirtualEnvironment([string]$Name, [switch]$YesToAll=$false
     }
 
     throw "Could not find a virtual environment in $virtualenvRoot whose name starts with $Name."
+)
 }

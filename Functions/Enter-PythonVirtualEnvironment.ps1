@@ -1,6 +1,7 @@
 . "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 
 function Enter-PythonVirtualEnvironment([string]$Name){
+$Null = @(
     $virtualenvRoot = Get-VirtualEnvironmentRoot
 
     #Find matching virtualenv
@@ -16,4 +17,5 @@ function Enter-PythonVirtualEnvironment([string]$Name){
     }
 
     throw "Could not find a virtual environment in $virtualenvRoot whose name starts with $Name."
+)
 }
