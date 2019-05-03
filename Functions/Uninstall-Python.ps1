@@ -1,19 +1,38 @@
 function Uninstall-Python([string]$Version){
 $Null = @(
-    $installerCache = Get-PythonInstallerCache
-    $installName = "python$Version"
-    $installerEXEPath = "$installerCache\$installName-Installer.exe"
-
-    if (!(Test-Path -Path $installerEXEPath)){
-        throw "Could not find an installer for python version $Version. (The installer is also used to uninstall python). This happens when the installer executable was deleted before using it to uninstall its corresponding version of python. Please attempt an uninstall using the system 'Apps & Features'. If this does not work, download the installer corresponding to your python version from https://www.python.org/downloads/windows/ and use it to repair the installation before uninstalling."
+    $parts = $Version.split('.')
+    # Check if the specified version is installed, and if the short version was specified expand it to the full version.
+    $installed = $true
+    if ($parts.count -lt 3){
+        $fullVersion = Convert-ShortVersionToFullVersion $Version
+        if (!$fullVersion){
+            $installed = $false
+        }
+        $Version = $fullVersion
+    }
+    else {
+        $installed = Test-FullVersionIsInstalled $Version
     }
 
+    if (!$installed){
+        throw "Python version $Version is not installed. Please use 'Install-Python' to install it. Or call 'Get-InstalledPythonVersions' to see a list of all installed versions."
+    }
+
+    $installRoot = Get-PythonInstallRoot
+    $shortVersion = Convert-FullVersionToShortVersion $Version
+    $installDirName = "python$shortVersion"
+    $installLocation = "$installRoot/$installDirName"
+    $installerEXEPath = Get-PythonInstaller $Version
+
+    Write-Host "Uninstalling python version $shortVersion..."
     # Wait for executable to complete so we can delete it when we are done
     $result = Start-Process $installerEXEPath -ArgumentList "/uninstall /passive" -NoNewWindow -Wait -PassThru
     if (!($result.ExitCode -eq 0)) {
         throw "Python installer crashed silently while uninstalling."
     }
 
+    Write-Host "Removing the installer executable at $installerEXEPath..."
     Remove-Item -Path $installerEXEPath
+    # The folder where python was installed is removed by the installer when it finishes.
 )
 }

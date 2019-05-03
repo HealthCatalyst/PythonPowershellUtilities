@@ -1,34 +1,31 @@
 . "$PSScriptRoot\ConfigGettersAndSetters.ps1"
 . "$PSScriptRoot\Get-PythonInstallerUrl.ps1"
 
-function Install-Python([string]$Version){
+function Install-Python([string]$FullVersion){
 $Null = @(
-    $installerCache = Get-PythonInstallerCache
-    $installerUrl = Get-PythonInstallerUrl -Version $Version
-    $installRoot = Get-PythonInstallRoot
-    $installName = "python$Version"
-    $installerEXEPath = "$installerCache\$installName-Installer.exe"
-
-    if (!($Version -match "^\d+\.\d+\.\d+$")){
+    if (!($FullVersion -match "^\d+\.\d+\.\d+$")){
         throw "Version must be fully specified. e.g. '3.7' will not work, but '3.7.2' will."
     }
-    if($Version -match "^2\."){
+    if($FullVersion -match "^2\."){
         throw "Unfortunately there are no executable installers for python versions 2.x. Version 2.x must be installed manually from https://www.python.org/downloads/"
     }
-
-    if (!(Test-Path -Path $installerEXEPath)){
-        Write-Host "Downloading Python $Version Installer..."
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri $installerURL -OutFile $installerEXEPath
-    }
     
+    $installRoot = Get-PythonInstallRoot
+    $shortVersion = Convert-FullVersionToShortVersion $FullVersion
+    $installDirName = "python$shortVersion"
+    $installLocation = "$installRoot\$installDirName"
+    $installerEXEPath = Get-PythonInstaller $FullVersion
+
+    
+    if (Test-ShortVersionIsInstalled $shortVersion){
+        throw "Python version $shortVersion has already been installed, please call 'Update-Python $shortVersion -NewFullVersion $FullVersion' if you want to update the installation. Or call 'Get-InstalledPythonVersions' to see a list of all installed versions."
+    }
     
     if(!(Test-Path -Path $installRoot)){
         New-Item -ItemType directory -Path $installRoot
     }
     
-    # Wait for executable to complete so we can delete it when we are done
-    $result = Start-Process $installerEXEPath -ArgumentList "/passive InstallAllUsers=1 TargetDir=`"$installRoot\$installName`"" -NoNewWindow -Wait -PassThru
+    $result = Start-Process $installerEXEPath -ArgumentList "/passive InstallAllUsers=1 TargetDir=`"$installLocation`"" -NoNewWindow -Wait -PassThru
     if (!($result.ExitCode -eq 0)) {
         throw "Python installation failed."
     }

@@ -1,12 +1,16 @@
 function Get-InstalledPythonVersions(){
-    $installerCache = Get-PythonInstallerCache
-    $versionRegex = "python(?<version>\d+.\d+.\d+)-Installer.exe"
+$Null = @(
+    $installationRoot = Get-PythonInstallRoot
+    $versionRegex = ".*(?<version>\d+.\d+.\d+)"
     $installedVersions = @()
 
-    foreach ($pathObj in Get-ChildItem "$installerCache\python*"){
-        $pathObj.Name -match $versionRegex > $null
-        $installedVersions += $Matches.version
+    if (Test-path -Path $installationRoot){
+        foreach ($pathObj in Get-ChildItem "$installationRoot\python*"){
+            $output = Invoke-Expression "& `"$($pathObj.Fullname)\python.exe`" --version"
+            $output -match $versionRegex
+            $installedVersions += $Matches.version
+        }
     }
-
+)
     return ,$installedVersions
 }
