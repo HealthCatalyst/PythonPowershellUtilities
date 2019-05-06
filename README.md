@@ -1,4 +1,4 @@
-[![Build Status](https://healthcatalyst.visualstudio.com/Clinical%20Decision/_apis/build/status/Text/Python%20Powershell%20Utilities?branchName=development)](https://healthcatalyst.visualstudio.com/Clinical%20Decision/_build/latest?definitionId=1055&branchName=development)
+[![Build Status](https://dev.azure.com/healthcatalyst/Clinical%20Decision/_apis/build/status/Text/Python%20Powershell%20Utilities?branchName=development)](https://dev.azure.com/healthcatalyst/Clinical%20Decision/_build/latest?definitionId=1111&branchName=development)
 
 # Python Powershell Utilities
 

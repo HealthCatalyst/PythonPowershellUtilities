@@ -10,7 +10,7 @@ jobs:
   steps:
   - powershell: |
       $testName = "DefaultLocations.ps1"
-      if ($env:TestType -eq custom){
+      if ($env:TestType -eq "custom"){
         $testName = "CustomLocations.ps1"
       }
 
