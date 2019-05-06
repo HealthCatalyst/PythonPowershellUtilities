@@ -81,7 +81,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     It 'Venv should point to new installation' {
         Enter-PythonVirtualEnvironment -Name $venvName37
         $version = Invoke-Expression "& python --version"
-        $version | Should -Be $updated37Version
+        $version | Should -Be "python $updated37Version"
         deactivate
     }
 
@@ -89,7 +89,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     It 'Venv should point to new installation' {
         Enter-PythonVirtualEnvironment -Name $venvName36
         $version = Invoke-Expression "& python --version"
-        $version | Should -Be $updated36Version
+        $version | Should -Be "python $updated36Version"
         deactivate
     }
 
