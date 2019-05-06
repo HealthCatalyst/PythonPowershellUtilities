@@ -55,19 +55,19 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     }
 
     It 'Should throw an error when trying to create a new environment with an existing name.' {
-        {New-PythonVirtualEnvironment -Version 3.6 -Name $venvName36} | Should -Throw "A virtual environment with this name and python version already exists. Please use 'Get-PythonVirtualEnvironments' to see a list of existing environments."
+        {New-PythonVirtualEnvironment -ShortVersion 3.6 -Name $venvName36} | Should -Throw "A virtual environment with this name and python version already exists. Please use 'Get-PythonVirtualEnvironments' to see a list of existing environments."
     }
 
     Enter-PythonVirtualEnvironment -Name $venvName37
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
-        Test-Path -Path "$venvRoot\$venvName-3.7\Lib\site-packages\toolz" | Should -BeTrue
+        Test-Path -Path "$venvRoot\$venvName-3.7\Lib\site-packages\toolz*" | Should -BeTrue
     }
 
     Enter-PythonVirtualEnvironment -Name $venvName36
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
-        Test-Path -Path "$venvRoot\$venvName-3.6\Lib\site-packages\toolz" | Should -BeTrue
+        Test-Path -Path "$venvRoot\$venvName-3.6\Lib\site-packages\toolz*" | Should -BeTrue
     }
 
     deactivate
@@ -81,7 +81,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     It 'Venv should point to new installation' {
         Enter-PythonVirtualEnvironment -Name $venvName37
         $version = Invoke-Expression "& python --version"
-        $version | Should -Be "python $updated37Version"
+        $version | Should -Be "Python $updated37Version"
         deactivate
     }
 
@@ -89,7 +89,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     It 'Venv should point to new installation' {
         Enter-PythonVirtualEnvironment -Name $venvName36
         $version = Invoke-Expression "& python --version"
-        $version | Should -Be "python $updated36Version"
+        $version | Should -Be "Python $updated36Version"
         deactivate
     }
 
@@ -105,7 +105,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
 
     # use short and long version for uninstall
     Uninstall-Python -Version 3.7
-    Uninstall-Python -Version $initial36Version
+    Uninstall-Python -Version $updated36Version
 
     if ($env:CustomLocations){
         It "Should reset the config to the default value" {
