@@ -48,7 +48,6 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     }
 
     $venvName36 = "TestEnv36"
-    $venvRoot = Get-PythonUtilitiesConfigValue "VirtualEnvironmentRoot"
     New-PythonVirtualEnvironment -ShortVersion 3.6 -Name $venvName36
     It 'Should create a new virtual environment' {
         Test-Path -Path "$venvRoot\$venvName36-3.6\Scripts\python.exe" | Should -BeTrue
@@ -58,19 +57,25 @@ Describe "Installing new python versions and creating virtual environments" -Tag
         {New-PythonVirtualEnvironment -ShortVersion 3.6 -Name $venvName36} | Should -Throw "A virtual environment with this name and python version already exists. Please use 'Get-PythonVirtualEnvironments' to see a list of existing environments."
     }
 
+    It "Should throw an error when trying to create a new environment with a version of python that hasn't been installed yet." {
+        {New-PythonVirtualEnvironment -ShortVersion 3.5 -Name $venvName36} | Should -Throw "Python version 3.5 is not installed. Please use 'Install-Python' to install it and then re-run this command."
+    }
+
     Enter-PythonVirtualEnvironment -Name $venvName37
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
         Test-Path -Path "$venvRoot\$venvName37-3.7\Lib\site-packages\toolz*" | Should -BeTrue
     }
+    deactivate
 
     Enter-PythonVirtualEnvironment -Name $venvName36
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
         Test-Path -Path "$venvRoot\$venvName36-3.6\Lib\site-packages\toolz*" | Should -BeTrue
     }
-
     deactivate
+
+    
     It 'Should return the correct number of environments' {
         $envs = Get-PythonVirtualEnvironments
         $envs.Count | Should -Be 2
