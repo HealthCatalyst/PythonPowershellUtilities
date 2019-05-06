@@ -9,16 +9,11 @@ jobs:
         CustomLocations: true
   steps:
   - powershell: |
-      $testName = "DefaultLocations.ps1"
-      if ($env:TestType -eq "custom"){
-        $testName = "CustomLocations.ps1"
-      }
-
       Get-PackageProvider NuGet -ForceBootstrap
 
       Install-Module -Name Pester -Force
 
-      $results = Invoke-Pester Tests\$testName -PassThru
+      $results = Invoke-Pester Tests\Tests.ps1 -PassThru
 
       if (!($results.FailedCount -eq 0)){
           throw "Tests failed."
