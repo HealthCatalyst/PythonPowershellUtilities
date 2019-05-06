@@ -74,7 +74,7 @@ This will install a new version of python in whatever location is returned by a 
 ```powershell
 Install-Python -FullVersion 3.6.8
 ```
-This command can be used to install any 3.x version, but the major, minor, and patch numbers must all be specified. For example, specifying `-Version 3.6.8` will work, but `-Version 3.6` will not.
+This command can be used to install [any 3.x version that has an installer on `python.org`](https://www.python.org/downloads/windows/), but the major, minor, and patch numbers must all be specified. For example, specifying `-FullVersion 3.6.8` will work, but `-FullVersion 3.6` will not.
 
 This command will cache the installer executable to use it to uninstall its corresponding version of python upon a call to `Uninstall-Python`.
 
