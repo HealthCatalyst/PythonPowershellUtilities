@@ -4,9 +4,9 @@ jobs:
     maxParallel: 2
     matrix:
       DefaultLocations:
-        CustomLocations: false
+        Locations: default
       CustomLocations:
-        CustomLocations: true
+        Locations: custom
   steps:
   - powershell: |
       Get-PackageProvider NuGet -ForceBootstrap

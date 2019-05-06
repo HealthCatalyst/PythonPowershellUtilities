@@ -12,7 +12,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     $defaultInstallRoot = "C:\PythonInstallations"
     $defaultVirtualEnvironmentRoot = "C:\PythonVirtualEnvironments"
 
-    if ($env:CustomLocations){
+    if ($env:Locations -eq "custom"){
         It 'Should get newly-set values' {
             Set-PythonInstallRoot -Path $testPythonInstallRoot -Force
             Get-PythonInstallRoot | Should -Be $testPythonInstallRoot
@@ -61,13 +61,13 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     Enter-PythonVirtualEnvironment -Name $venvName37
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
-        Test-Path -Path "$venvRoot\$venvName-3.7\Lib\site-packages\toolz*" | Should -BeTrue
+        Test-Path -Path "$venvRoot\$venvName37-3.7\Lib\site-packages\toolz*" | Should -BeTrue
     }
 
     Enter-PythonVirtualEnvironment -Name $venvName36
     $result = Start-Process "pip" -ArgumentList "--disable-pip-version-check install toolz" -NoNewWindow -Wait -PassThru
     It 'Should install the test dependency into the new venv' {
-        Test-Path -Path "$venvRoot\$venvName-3.6\Lib\site-packages\toolz*" | Should -BeTrue
+        Test-Path -Path "$venvRoot\$venvName36-3.6\Lib\site-packages\toolz*" | Should -BeTrue
     }
 
     deactivate
@@ -107,7 +107,7 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     Uninstall-Python -Version 3.7
     Uninstall-Python -Version $updated36Version
 
-    if ($env:CustomLocations){
+    if ($env:Locations -eq "custom"){
         It "Should reset the config to the default value" {
             Restore-PythonUtilitiesConfigDefaults -Force
             Get-PythonInstallRoot | Should -Be $defaultInstallRoot
