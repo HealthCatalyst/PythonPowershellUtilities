@@ -1,0 +1,25 @@
+jobs:
+- job: Test
+  strategy:
+    maxParallel: 2
+    matrix:
+      DefaultLocations:
+        TestType: default
+      CustomLocations:
+        TestType: custom
+  stages:
+  - powershell: |
+      $testName = "DefaultLocations.ps1"
+      if ($env:TestType -eq custom){
+        $testName = "CustomLocations.ps1"
+      }
+
+      Get-PackageProvider NuGet -ForceBootstrap
+
+      Install-Module -Name Pester -Force
+
+      $results = Invoke-Pester Tests\$testName -PassThru
+
+      if (!($results.FailedCount -eq 0)){
+          throw "Tests failed."
+      } 
