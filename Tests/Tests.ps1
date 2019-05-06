@@ -7,13 +7,25 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     $updated36Version = "3.6.8"
 
     # Make sure to test paths that have spaces
-    $defaultInstallRoot = "C:\PythonInstallations\"
-    $defaultVirtualEnvironmentRoot = "C:\PythonVirtualEnvironments\"
+    $testPythonInstallRoot = "C:\Program Files\Python\My Install Root"
+    $testVirtualEnvironmentRoot = "C:\Program Files\Python\My Python Virtual Environments"
+    $defaultInstallRoot = "C:\PythonInstallations"
+    $defaultVirtualEnvironmentRoot = "C:\PythonVirtualEnvironments"
 
-    
-    It 'Should get newly-set value' {
-        Get-PythonInstallRoot | Should -Be $defaultInstallRoot
-        Get-VirtualEnvironmentRoot | Should -Be $defaultVirtualEnvironmentRoot
+    if ($env:CustomLocations){
+        It 'Should get newly-set values' {
+            Set-PythonInstallRoot -Path $testPythonInstallRoot -Force
+            Get-PythonInstallRoot | Should -Be $testPythonInstallRoot
+
+            Set-VirtualEnvironmentRoot -Path $testVirtualEnvironmentRoot -Force
+            Get-VirtualEnvironmentRoot | Should -Be $testVirtualEnvironmentRoot
+        }
+    }
+    else {
+        It 'Should get default values' {
+            Get-PythonInstallRoot | Should -Be $defaultInstallRoot
+            Get-VirtualEnvironmentRoot | Should -Be $defaultVirtualEnvironmentRoot
+        }
     }
 
     Install-Python -FullVersion $initial37Version
@@ -30,14 +42,14 @@ Describe "Installing new python versions and creating virtual environments" -Tag
 
     $venvName37 = "TestEnv37"
     $venvRoot = Get-PythonUtilitiesConfigValue "VirtualEnvironmentRoot"
-    New-PythonVirtualEnvironment -Version 3.7 -Name $venvName37
+    New-PythonVirtualEnvironment -ShortVersion 3.7 -Name $venvName37
     It 'Should create a new virtual environment' {
         Test-Path -Path "$venvRoot\$venvName37-3.7\Scripts\python.exe" | Should -BeTrue
     }
 
     $venvName36 = "TestEnv36"
     $venvRoot = Get-PythonUtilitiesConfigValue "VirtualEnvironmentRoot"
-    New-PythonVirtualEnvironment -Version 3.6 -Name $venvName36
+    New-PythonVirtualEnvironment -ShortVersion 3.6 -Name $venvName36
     It 'Should create a new virtual environment' {
         Test-Path -Path "$venvRoot\$venvName36-3.6\Scripts\python.exe" | Should -BeTrue
     }
@@ -94,4 +106,12 @@ Describe "Installing new python versions and creating virtual environments" -Tag
     # use short and long version for uninstall
     Uninstall-Python -Version 3.7
     Uninstall-Python -Version $initial36Version
+
+    if ($env:CustomLocations){
+        It "Should reset the config to the default value" {
+            Restore-PythonUtilitiesConfigDefaults -Force
+            Get-PythonInstallRoot | Should -Be $defaultInstallRoot
+            Get-VirtualEnvironmentRoot | Should -Be $defaultVirtualEnvironmentRoot
+        }
+    }
 }

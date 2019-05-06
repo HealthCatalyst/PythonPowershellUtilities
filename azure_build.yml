@@ -4,9 +4,9 @@ jobs:
     maxParallel: 2
     matrix:
       DefaultLocations:
-        TestType: default
+        CustomLocations: false
       CustomLocations:
-        TestType: custom
+        CustomLocations: true
   steps:
   - powershell: |
       $testName = "DefaultLocations.ps1"
