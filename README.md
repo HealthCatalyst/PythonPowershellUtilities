@@ -59,7 +59,8 @@ For python version 3.x the python development team provides several installers f
 
 
 ## API Changes from Version 1
-1. The `-Version` parameter of `New-PythonVirtualEnvironment` has been changed to `-ShortVersion` to emphasize that it should be the major.minor version, not the full verison.
+1. The `-Version` parameter of `Install-Python` has been renamed to `-FullVersions` to emphasize that it should be the major.minor.patch version, not the short version.
+1. The `-Version` parameter of `New-PythonVirtualEnvironment` has been renamed to `-ShortVersion` to emphasize that it should be the major.minor version, not the full verison.
 1. `Update-Python` was added to allow easy updating of existing major.minor versions and to emphasize the fact that you cannot install multiple patch versions at once.
 1. Calling `Install-Python` and `New-PythonVirtualEnvironment` now creates folders that end in just the major.minor version instead of the full version.
 
@@ -71,7 +72,7 @@ For python version 3.x the python development team provides several installers f
 ### Install-Python
 This will install a new version of python in whatever location is returned by a call to `Get-PythonInstallRoot` which defaults to `C:\PythonInstallations\`. This involves downloading the specified version of python from `https://www.python.org/ftp/python/` and running the installer. As such, you must be an administrator to run this command. 
 ```powershell
-Install-Python -Version 3.6.8
+Install-Python -FullVersion 3.6.8
 ```
 This command can be used to install any 3.x version, but the major, minor, and patch numbers must all be specified. For example, specifying `-Version 3.6.8` will work, but `-Version 3.6` will not.
 
@@ -132,7 +133,7 @@ Prints the directory into which new python versions will be installed. For examp
 ```powershell
 Get-PythonInstallRoot
 ```
-returns the value of `C:\PythonInstallations\` if it has not been changed through a call to `Set-PythonInstallRoot`.
+returns the value of `C:\PythonInstallations` if it has not been changed through a call to `Set-PythonInstallRoot`.
 
 ### Set-PythonInstallRoot
 Sets the directory into which new python versions will be installed. For example, after calling
