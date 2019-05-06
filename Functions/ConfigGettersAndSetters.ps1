@@ -1,7 +1,6 @@
 . "$PSScriptRoot\Get-InstalledPythonVersions.ps1"
 . "$PSScriptRoot\Uninstall-Python.ps1"
 
-$script:defaultConfigPath = "$PSScriptRoot\..\Config\config.json"
 $script:registryConfigPath = "HKLM:\SOFTWARE\PythonPowershellUtilities"
 
 function Get-PythonUtilitiesConfigValue([string]$Key){
@@ -41,22 +40,22 @@ function Get-PythonInstallRoot(){
 function Set-PythonInstallRoot([string]$Path, [switch]$Force=$false){
 $Null = @(
     $installRoot = Get-PythonInstallRoot
-    $installerCache = Get-PythonInstallerCache
-    if (Test-Path -Path $installerCache){
-        $cacheInfo = Get-ChildItem "$installerCache\python*" | Measure-Object
-        if ($cacheInfo.Count -gt 0){
-            if (!$Force){
-                $response = Read-Host "WARNING: One or more versions of python have already been installed into the current PythonInstallRoot, located at $installRoot. Changing the root will uninstalll those versions and orphan any virtual environments created from those versions. To continue and uninstall the current python versions enter 'yes'. To cancel, enter 'no' or press enter/return"
-                if (!($response -eq "yes")){
-                    return
-                }
+    $installedVersions = Get-InstalledPythonVersions
+    if ($installedVersions.Count -gt 0){
+        if (!$Force){
+            $response = Read-Host "WARNING: One or more versions of python have already been installed into the current PythonInstallRoot located at $installRoot. Changing the root will uninstall those versions and orphan any virtual environments created from those versions. To continue and uninstall the current python versions enter 'yes'. To cancel, enter 'no' or press enter/return"
+            if (!($response -eq "yes")){
+                return
             }
-            
-            foreach ($version in $(Get-InstalledPythonVersions)){
-                Uninstall-Python -Version $version
-            }
-
-            # Delete the installer cached and the installation directory if it's empty
+        }
+        
+        foreach ($version in $(Get-InstalledPythonVersions)){
+            Uninstall-Python -Version $version
+        }
+        
+        $installerCache = Get-PythonInstallerCache
+        if (Test-Path -Path $installerCache){
+            # Delete the installer cache and the installation directory if it's empty
             Remove-Item -Recurse $installerCache
             $installerDirInfo = Get-ChildItem $installRoot | Measure-Object
             if ($installerDirInfo.Count -eq 0){
@@ -64,7 +63,7 @@ $Null = @(
             }
         }
     }
-    New-Item -ItemType directory -Path "$Path\Installers" -Force > $null
+    New-Item -ItemType directory -Path "$Path\Installers" -Force
     Set-PythonUtilitiesConfigValue -Key "PythonInstallRoot" -Value $Path
 )
 }

@@ -1,0 +1,23 @@
+jobs:
+- job: Test
+  strategy:
+    maxParallel: 2
+    matrix:
+      DefaultLocations:
+        Locations: default
+      CustomLocations:
+        Locations: custom
+  steps:
+  - powershell: |
+      Get-PackageProvider NuGet -ForceBootstrap
+
+      Install-Module -Name Pester -Force
+
+      $results = Invoke-Pester Tests\Tests.ps1 -PassThru
+
+      if (!($results.FailedCount -eq 0)){
+          throw "Tests failed."
+      } 
+
+trigger:
+- development
