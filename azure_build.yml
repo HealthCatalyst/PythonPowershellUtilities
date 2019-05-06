@@ -7,7 +7,7 @@ jobs:
         TestType: default
       CustomLocations:
         TestType: custom
-  stages:
+  steps:
   - powershell: |
       $testName = "DefaultLocations.ps1"
       if ($env:TestType -eq custom){
