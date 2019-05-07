@@ -59,9 +59,9 @@ For python version 3.x the python development team provides several installers f
 
 
 ## API Changes from Version 1
-1. The `-Version` parameter of `Install-Python` has been renamed to `-FullVersions` to emphasize that it should be the major.minor.patch version, not the short version.
+1. The `-Version` parameter of `Install-Python` has been renamed to `-FullVersion` to emphasize that it should be the major.minor.patch version, not the short version.
 1. The `-Version` parameter of `New-PythonVirtualEnvironment` has been renamed to `-ShortVersion` to emphasize that it should be the major.minor version, not the full verison.
-1. `Update-Python` was added to allow easy updating of existing major.minor versions and to emphasize the fact that you cannot install multiple patch versions at once.
+1. The `Update-Python` function was added to allow easy updating of existing major.minor versions and to emphasize the fact that you cannot install multiple patch versions at once.
 1. Calling `Install-Python` and `New-PythonVirtualEnvironment` now creates folders that end in just the major.minor version instead of the full version.
 
 
