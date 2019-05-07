@@ -2,7 +2,7 @@
 
 # Python Powershell Utilities
 
-A powershell module for installing python versions and managing python virtual environments.
+A powershell module for installing python versions and managing python virtual environments - on windows. There are several good tools available for managing python installations and virtual environments for *nix. This module aims to take the best ideas from those tools and create a tool that feels native to windows. For those times when you really can't, unfortunately, just use linux.
 
 > If you are looking for the documentation for version 1.x please see [the wiki](https://github.com/HealthCatalyst/PythonPowershellUtilities/wiki/Version-1-Documentation).
 
