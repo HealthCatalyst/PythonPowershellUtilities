@@ -100,10 +100,11 @@ Uninstall-Python -Version 3.6.8
 ### New-PythonVirtualEnvironment
 Creates a new virtual environment using the specified version of python, and gives it the specified name.
 ```powershell
-New-PythonVirtualEnvironment -ShortVersion 3.6.8 -Name FirstEnv
+New-PythonVirtualEnvironment -ShortVersion 3.6 -Name FirstEnv
 ```
-This will create a new virtual environment in whatever location is returned by a call to `Get-VirtualEnvironmentRoot` which defaults to `C:\PythonVirtualEnvironments\`. This command automatically appends the python version to the name of the virtual environment, so the example above would create a virtual environment named `FirstEnv-3.6.8`.
+This will create a new virtual environment in whatever location is returned by a call to `Get-VirtualEnvironmentRoot` which defaults to `C:\PythonVirtualEnvironments`. This command automatically appends the python short version to the name of the virtual environment, so the example above would create a virtual environment named `FirstEnv-3.6`.
 
+Attempting to create two virtual environments with the same name and same version of python will produce an error.
 
 ### Enter-PythonVirtualEnvironment
 Activates the specified virtual environment.
@@ -111,9 +112,7 @@ Activates the specified virtual environment.
 Enter-PythonVirtualEnvironment -Name FirstEnv
 ```
 To exit the virtual environment, execute `deactivate` in your powershell session.
-The `-Name` parameter only needs to be as much of the first part of the environment name as is necessary to uniquely identify it. For example, if you had two environments, one named `EnvironmentOne` and another named `EnvironmentTwo`, you would only need to type `-Name EnvironmentO` to specify `EnvironmentOne`, or `-Name EnvironmentT` to specify `EnvironmentTwo`.
-
-It is not recommended to create two virtual environments with the same name if they use the same version of python.
+The `-Name` parameter only needs to be as much of the first part of the environment name as is necessary to uniquely identify it. For example, if you had two environments, one named `EnvironmentOne` and another named `EnvironmentTwo`, you would only need to type `-Name EnvironmentO` to specify `EnvironmentOne`, or `-Name EnvironmentT` to specify `EnvironmentTwo`. The `-Name` parameter is case sensitive.
 
 ### Remove-PythonVirtualEnvironment
 Removes the specified virtual environment. For example, assuming that there exists a virtual environment named MyEnvironment
