@@ -119,7 +119,7 @@ Removes the specified virtual environment. For example, assuming that there exis
 ```powershell
 Remove-PythonVirtualEnvironment MyEnvironment
 ```
-will delete that environment after prompting for confirmation. Note that when deleting an environment it is only necessary to specify as much of the environment name as you need to in order to uniquely identify it.
+will delete that environment after prompting for confirmation. Specifying the `-YesToAll` flag will force removal of the environment without prompting for confirmation. Note that when deleting an environment it is only necessary to specify as much of the environment name as you need to in order to uniquely identify it.
 
 ### Get-PythonVirtualEnvironments
 Lists all the virtual environments that have been created.
